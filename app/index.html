@@ -19,7 +19,7 @@
     }
     #topnav {
       padding: 5px 10px;
-      height: 50px;
+      height: 55px;
       background: #fff
     }
     #title,
@@ -58,44 +58,49 @@
       text-transform: uppercase;
       color: #888;
     }
+    #container {
+      overflow: hidden;
+    }
     </style>
   </head>
   <body>
-    <div id="topnav">
-      <input type="text" id="title" placeholder="Article title"/>
-      <!--
-      Node <script>document.write(process.versions.node)</script>,
-      Chrome <script>document.write(process.versions.chrome)</script>,
-      Electron <script>document.write(process.versions.electron)</script>.
-      -->
-    </div>
-    <div id="editor" contenteditable="true"></div>
-    <div id="sidebar">
-      <h5>Headline and summary tips</h5>
-      <p>…</p>
-      <h5>Related people</h5>
-      <p>…</p>
-      <h5>Related organisations</h5>
-      <p>…</p>
-      <h5>Related places</h5>
-      <p>…</p>
-      <h5>Related images</h5>
-      <p>…</p>
-      <h5>Related explainers</h5>
-      <p>…</p>
-      <h5>Related articles</h5>
-      <p>…</p>
+    <div id="container">
+      <div id="topnav">
+        <input type="text" id="title" placeholder="Article title"/>
+        <!--
+        Node <script>document.write(process.versions.node)</script>,
+        Chrome <script>document.write(process.versions.chrome)</script>,
+        Electron <script>document.write(process.versions.electron)</script>.
+        -->
+      </div>
+      <div id="editor" contenteditable="true"></div>
+      <div id="sidebar">
+        <h5>Headline and summary tips</h5>
+        <p>…</p>
+        <h5>Related people</h5>
+        <p>…</p>
+        <h5>Related organisations</h5>
+        <p>…</p>
+        <h5>Related places</h5>
+        <p>…</p>
+        <h5>Related images</h5>
+        <p>…</p>
+        <h5>Related explainers</h5>
+        <p>…</p>
+        <h5>Related articles</h5>
+        <p>…</p>
+      </div>
     </div>
     <script>
     $(function() {
-      $("#editor").height( $(window).height() - $("#topnav").outerHeight() - 150 );
-      $("#mceu_13-body").height( $(window).height() - $("#topnav").outerHeight() - 150 );
-      $("#sidebar").height( $(window).height() );
+      $("#container").height( $(window).height());
+      $("#editor").height( $(window).height() - $("#topnav").outerHeight());
+      $("#sidebar").height( $(window).height() - 20);
       tinymce.init({ selector: '#editor' });
       $(window).resize(function() {
-        $("#editor").height( $(window).height() - $("#topnav").outerHeight() - 150 );
-        $("#mceu_13-body").height( $(window).height() - $("#topnav").outerHeight() - 150 );
-        $("#sidebar").height( $(window).height() );
+        $("#container").height( $(window).height());
+        $("#editor").height( $(window).height() - $("#topnav").outerHeight());
+        $("#sidebar").height( $(window).height() - 20);
       });
     });
     </script>
