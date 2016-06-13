@@ -1,0 +1,26 @@
+{
+  "name": "Articulate",
+  "description": "A smart editor",
+  "version": "0.0.1",
+  "main": "app.js",
+  "author": "glitch.digital",
+  "build": {
+    "app-bundle-id": "your.id",
+    "app-category-type": "your.app.category.type",
+    "win": {
+      "iconUrl": "(windows-only) https link to icon"
+    }
+  },
+  "scripts": {
+    "postinstall": "install-app-deps",
+    "build-pack": "build --target dir",
+    "build-dist": "build",
+    "build-test": "cd build/test; electron-packager ../../app Articulate --all --version=1.2.2 --overwrite"
+  },
+  "dependencies": {
+    "electron-builder": "^5.2.1"
+  },
+  "devDependencies": {
+    "electron-prebuilt": "^1.2.2"
+  }
+}
