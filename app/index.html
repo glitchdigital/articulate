@@ -1,108 +1,92 @@
 <!DOCTYPE html>
-<html>
+<html lang="en-US">
   <head>
     <meta charset="UTF-8">
     <title>Articulate</title>
-    <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/css/materialize.min.css"/>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/medium-editor/latest/css/medium-editor.min.css"/>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/medium-editor/latest/css/themes/default.min.css"/>
-    <script src="https://cdn.jsdelivr.net/medium-editor/latest/js/medium-editor.min.js"></script>
-    <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/js/materialize.min.js"></script>
-    <script src="https://cdn.tinymce.com/4/tinymce.min.js"></script>
-    <style>
-    body {
-      margin: 0;
-      padding: 0;
-      background: #eee;
-    }
-    #topnav {
-      padding: 5px 10px;
-      height: 55px;
-      background: #fff
-    }
-    #title,
-    #title:focus {
-      font-size: 28px;
-      margin: 0;
-      box-shadow: none;
-      border: none;
-      background: #fff;
-    }
-    #editor {
-      outline: none;
-      padding: 20px;
-      background: #fff;
-      position: absolute;
-      top: 0;
-      left: 0;
-      margin-top: 50px;
-      padding-right: 300px;
-      height: 100%;
-      width: 100%;
-    }
-    #sidebar {
-      padding: 10px;
-      background: #eee;
-      border-left: 1px solid #c0c0c0;
-      position: absolute;
-      top: 0;
-      right: 0;
-      height: 100%;
-      width: 299px;
-    }
-    h5 {
-      margin: 0;
-      font-size: 16px;
-      text-transform: uppercase;
-      color: #888;
-    }
-    #container {
-      overflow: hidden;
-    }
-    </style>
+    <!--<link rel="stylesheet" href="css/materialize.min.css"/>-->
+    <link rel="stylesheet" href="css/materialdesignicons.min.css"/>
+    <link rel="stylesheet" href="css/splitter.css"/>
+    
+    <!-- CSS for Bootstrap WYSIHTML5 -->
+    <link rel="stylesheet" href="css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="css/bootstrap-theme.min.css"/>
+    <link rel="stylesheet" href="css/bootstrap3-wysihtml5.css"/>
+    
+    <link rel="stylesheet" href="css/app.css"/>
+    
+    <!-- WYSIHTML5 doesn't work with jQuery 3 -->
+    <!--<script src="js/jquery-3.0.0.min.js"></script>-->
+
+    <!-- JS for Bootstrap WYSIHTML5 -->
+    <script src="js/wysihtml5-0.4.0pre.js"></script>
+    <script src="js/jquery-1.7.2.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/handlebars.runtime.min.js"></script>
+    <script src="js/bootstrap3-wysihtml5.js"></script>
+    
+    <script src="js/materialize.min.js"></script>
+    <script src="js/splitter.js"></script>
   </head>
   <body>
-    <div id="container">
-      <div id="topnav">
-        <input type="text" id="title" placeholder="Article title"/>
-        <!--
-        Node <script>document.write(process.versions.node)</script>,
-        Chrome <script>document.write(process.versions.chrome)</script>,
-        Electron <script>document.write(process.versions.electron)</script>.
-        -->
+    <!--
+    Node <script>document.write(process.versions.node)</script>,
+    Chrome <script>document.write(process.versions.chrome)</script>,
+    Electron <script>document.write(process.versions.electron)</script>.
+    -->
+    <div id="container" class="vertically_divided" data-percent="70">
+      <div>
+        <div id="topnav">
+          <input type="text" id="title" placeholder="Article title"/>
+        </div>
+        <div id="editor">
+          <textarea tabindex="0" placeholder="Article text"></textarea>
+        </div>
       </div>
-      <div id="editor" contenteditable="true"></div>
-      <div id="sidebar">
-        <h5>Headline and summary tips</h5>
-        <p>…</p>
-        <h5>Related people</h5>
-        <p>…</p>
-        <h5>Related organisations</h5>
-        <p>…</p>
-        <h5>Related places</h5>
-        <p>…</p>
-        <h5>Related images</h5>
-        <p>…</p>
-        <h5>Related explainers</h5>
-        <p>…</p>
-        <h5>Related articles</h5>
-        <p>…</p>
+      <div>
+        <div id="sidebar">
+          <h5>Headline and summary tips</h5>
+          <p>…</p>
+          <h5>Related people</h5>
+          <p>…</p>
+          <h5>Related organisations</h5>
+          <p>…</p>
+          <h5>Related places</h5>
+          <p>…</p>
+          <h5>Related images</h5>
+          <p>…</p>
+          <h5>Related explainers</h5>
+          <p>…</p>
+          <h5>Related articles</h5>
+          <p>…</p>
+        </div>
       </div>
     </div>
     <script>
+
     $(function() {
+
+      splitMe.init();
+      
       $("#container").height( $(window).height());
       $("#editor").height( $(window).height() - $("#topnav").outerHeight());
+      $("#editor textarea").height( $(window).height() - $("#topnav").outerHeight() - 51);
       $("#sidebar").height( $(window).height() - 20);
-      tinymce.init({ selector: '#editor' });
+      //tinymce.init({ selector: '#editor' });
+      
+      $('#editor textarea').wysihtml5({
+        useLineBreaks: false,
+        parserRules: { tags: { p: {} }, classes: {} }
+      });
+
+      $('#editor textarea').focus();
+      
       $(window).resize(function() {
         $("#container").height( $(window).height());
         $("#editor").height( $(window).height() - $("#topnav").outerHeight());
+        $("#editor textarea").height( $(window).height() - $("#topnav").outerHeight() - 51);
         $("#sidebar").height( $(window).height() - 20);
       });
     });
+
     </script>
-  </body>
 </html>
