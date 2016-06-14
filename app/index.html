@@ -57,13 +57,48 @@
       </div>
       <div>
         <div id="sidebar">
-          <h5><i class="fa fa-lg fa-fw fa-comment"></i> Suggestions <i class="fa fa-lg fa-fw fa-plus pull-right"></i></h5>
-          <h5><i class="fa fa-lg fa-fw fa-user"></i> People <i class="fa fa-lg fa-fw fa-plus pull-right"></i></h5>
-          <h5><i class="fa fa-lg fa-fw fa-sitemap"></i> Organisations <i class="fa fa-lg fa-fw fa-plus pull-right"></i></h5>
-          <h5><i class="fa fa-lg fa-fw fa-globe"></i> Places <i class="fa fa-lg fa-fw fa-plus pull-right"></i></h5>
-          <h5><i class="fa fa-lg fa-fw fa-image"></i> Images <i class="fa fa-lg fa-fw fa-plus pull-right"></i></h5>
-          <h5><i class="fa fa-lg fa-fw fa-file-text-o"></i> Articles <i class="fa fa-lg fa-fw fa-plus pull-right"></i></h5>
-          <h5><i class="fa fa-lg fa-fw fa-info-circle"></i> Explainers <i class="fa fa-lg fa-fw fa-plus pull-right"></i></h5>
+          <div>
+            <h5><i class="fa fa-lg fa-fw fa-comment"></i> Suggestions <i class="fa fa-lg fa-fw fa-plus-circle pull-right expander"></i></h5>
+            <div class="container">
+              <p>No suggestions or tips yet…</p>
+            </div>
+          </div>
+          <div>
+            <h5><i class="fa fa-lg fa-fw fa-user"></i> People <i class="fa fa-lg fa-fw fa-plus-circle pull-right expander"></i></h5>
+            <div class="container">
+              <p>No matching people found.</p>
+            </div>
+          </div>
+          <div>
+            <h5><i class="fa fa-lg fa-fw fa-sitemap"></i> Organisations <i class="fa fa-lg fa-fw fa-plus-circle pull-right expander"></i></h5>
+            <div class="container">
+              <p>No matching organisations found.</p>
+            </div>
+          </div>
+          <div>
+            <h5><i class="fa fa-lg fa-fw fa-globe"></i> Places <i class="fa fa-lg fa-fw fa-plus-circle pull-right expander"></i></h5>
+            <div class="container">
+              <p>No matching places found.</p>
+            </div>
+          </div>
+          <div>
+            <h5><i class="fa fa-lg fa-fw fa-image"></i> Images <i class="fa fa-lg fa-fw fa-plus-circle pull-right expander"></i></h5>
+            <div class="container">
+              <p>No matching images found.</p>
+            </div>
+          </div>
+          <div>
+            <h5><i class="fa fa-lg fa-fw fa-info-circle"></i> Explainers <i class="fa fa-lg fa-fw fa-plus-circle pull-right expander"></i></h5>
+            <div class="container">
+              <p>No matching explainers found.</p>
+            </div>
+          </div>
+          <div>
+            <h5><i class="fa fa-lg fa-fw fa-newspaper-o"></i> Articles <i class="fa fa-lg fa-fw fa-plus-circle pull-right expander"></i></h5>
+            <div class="container">
+              <p>No matching articles found.</p>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -110,7 +145,185 @@
         $(".CodeMirror").height( $(window).height() - $("#topnav").outerHeight() - $(".editor-toolbar").outerHeight() - 32);
         $("#sidebar").height( $(window).height());
       });
+      
+      $("#sidebar h5").click(function() { 
+        $(".expander", $(this)).toggleClass("active").toggleClass("fa-plus-circle").toggleClass("fa-minus-circle");
+        $($(this).siblings()[0]).slideToggle();
+      });
     });
 
+    </script>
+    
+    <script>
+    if (window.require)
+      initalizeMenu();
+    
+    function initalizeMenu() {
+      const {remote} = require('electron');
+      const {Menu, MenuItem} = remote;
+
+      const contextMenu = new Menu();
+      contextMenu.append(new MenuItem({
+        label: 'Cut',
+        accelerator: 'CmdOrCtrl+X',
+        role: 'cut'
+      }));
+      contextMenu.append(new MenuItem({
+        label: 'Copy',
+        accelerator: 'CmdOrCtrl+C',
+        role: 'copy'
+      }));
+      contextMenu.append(new MenuItem({
+        label: 'Paste',
+        accelerator: 'CmdOrCtrl+V',
+        role: 'paste'
+      }));
+      
+      window.addEventListener('contextmenu', (e) => {
+        e.preventDefault();
+        contextMenu.popup(remote.getCurrentWindow());
+      }, false);
+      
+
+
+      const template = [
+        {
+          label: 'Edit',
+          submenu: [
+            {
+              label: 'Undo',
+              accelerator: 'CmdOrCtrl+Z',
+              role: 'undo'
+            },
+            {
+              label: 'Redo',
+              accelerator: 'Shift+CmdOrCtrl+Z',
+              role: 'redo'
+            },
+            {
+              type: 'separator'
+            },
+            {
+              label: 'Cut',
+              accelerator: 'CmdOrCtrl+X',
+              role: 'cut'
+            },
+            {
+              label: 'Copy',
+              accelerator: 'CmdOrCtrl+C',
+              role: 'copy'
+            },
+            {
+              label: 'Paste',
+              accelerator: 'CmdOrCtrl+V',
+              role: 'paste'
+            },
+            {
+              label: 'Select All',
+              accelerator: 'CmdOrCtrl+A',
+              role: 'selectall'
+            },
+          ]
+        },
+        {
+          label: 'View',
+          submenu: [
+            {
+              label: 'Toggle Full Screen',
+              accelerator: process.platform === 'darwin' ? 'Ctrl+Command+F' : 'F11',
+              click(item, focusedWindow) {
+                if (focusedWindow)
+                  focusedWindow.setFullScreen(!focusedWindow.isFullScreen());
+              }
+            },
+          ]
+        },
+        {
+          label: 'Window',
+          role: 'window',
+          submenu: [
+            {
+              label: 'Minimize',
+              accelerator: 'CmdOrCtrl+M',
+              role: 'minimize'
+            },
+            {
+              label: 'Close',
+              accelerator: 'CmdOrCtrl+W',
+              role: 'close'
+            },
+          ]
+        },
+        {
+          label: 'Help',
+          role: 'help',
+          submenu: [
+            {
+              label: 'Learn More',
+              click() { require('electron').shell.openExternal('http://electron.atom.io'); }
+            },
+          ]
+        },
+      ];
+
+      if (process.platform === 'darwin') {
+        const name = remote.app.getName();
+        template.unshift({
+          label: name,
+          submenu: [
+            {
+              label: 'About ' + name,
+              role: 'about'
+            },
+            {
+              type: 'separator'
+            },
+            {
+              label: 'Services',
+              role: 'services',
+              submenu: []
+            },
+            {
+              type: 'separator'
+            },
+            {
+              label: 'Hide ' + name,
+              accelerator: 'Command+H',
+              role: 'hide'
+            },
+            {
+              label: 'Hide Others',
+              accelerator: 'Command+Alt+H',
+              role: 'hideothers'
+            },
+            {
+              label: 'Show All',
+              role: 'unhide'
+            },
+            {
+              type: 'separator'
+            },
+            {
+              label: 'Quit',
+              accelerator: 'Command+Q',
+              click() { remote.app.quit(); }
+            },
+          ]
+        });
+        // Window menu.
+        template[3].submenu.push(
+          {
+            type: 'separator'
+          },
+          {
+            label: 'Bring All to Front',
+            role: 'front'
+          }
+        );
+      }
+
+      const menu = Menu.buildFromTemplate(template);
+      Menu.setApplicationMenu(menu);
+    }
     </script>
 </html>

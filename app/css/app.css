@@ -84,12 +84,14 @@ body {
   overflow: auto;
 }
 #sidebar h5 {
-  margin: 0 0 20px 0;
+  position: relative;
+  margin: 0 0 10px 0;
   padding: 10px;
   font-size: 16px;
   text-transform: uppercase;
   color: #888;
   font-weight: bold;
+  -webkit-transform: translateZ(0px);
 }
 #sidebar h5 .fa-fw {
   margin-right: 5px;
@@ -97,10 +99,30 @@ body {
 #sidebar h5:hover {
   background: #444;
 }
-#sidebar h5 .pull-right {
-  position: relative;
-  top: 2px;
-  right: -10px;
+
+#sidebar h5 .expander {
+  transition: all 0.05s linear;
+  transform:rotate(-90deg);
+  position: absolute;
+  top: 10px;
+  right: 0px;
+}
+
+#sidebar h5 .expander.active {
+  right: 1px;
+  transform:rotate(0deg);
+}
+#sidebar .container {
+  display: none;
+  margin: 0;
+  margin-bottom: 10px;
+  width: 100%;
+  height: auto;
+}
+#sidebar .container p {
+  padding-left: 10px;
+  margin-bottom: 20px;
+  opacity: 0.5;
 }
 
 #container {
@@ -111,19 +133,19 @@ body {
   height: 0px;
 }
 
-#editor iframe::-webkit-scrollbar {
+::-webkit-scrollbar {
   -webkit-appearance: none;
   width: 10px;
 }
-#editor iframe::-webkit-scrollbar-thumb {
-  background-color: #333;
+::-webkit-scrollbar-thumb {
+  background-color: #555;
   border-right: 5px solid transparent;
 }
-#editor iframe:hover::-webkit-scrollbar-track {
-  background-color: #ccc;
+::-webkit-scrollbar-track {
+  background-color: #ddd;
 }
-#editor iframe::-webkit-scrollbar-thumb:hover {
-  background-color: #ccc;
+::-webkit-scrollbar-thumb:hover {
+  background-color: #666;
 }
 
 ::selection { 
