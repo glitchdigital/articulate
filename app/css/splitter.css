@@ -1,23 +1,23 @@
 .divider_vertical,
 .divider_horizontal {
-  background: #eee;
+  background: #333;
 }
 
 .divider_vertical:hover,
 .divider_horizontal:hover {
-  background: #ddd;
+  background: #555;
 }
 .divider_vertical.dragged,
 .divider_horizontal.dragged {
-  background: #ccc;
+  background: #666;
 }
 .divider_vertical {
-  width: 4px;
-  cursor: ew-resize;
+  width: 5px;
+  cursor: ew-resize !important;
 }
 .divider_horizontal {
-  height: 4px;
-  cursor: ns-resize;
+  height: 5px;
+  cursor: ns-resize !important;
 }
 .divider_vertical:after,
 .divider_horizontal:after,
@@ -33,7 +33,7 @@
 .divider_vertical:before {
   top: 0;
   bottom: 0;
-  width: 4px;
+  width: 5px;
 }
 .divider_vertical:after {
   left: 100%;
@@ -45,7 +45,7 @@
 .divider_horizontal:before {
   left: 0;
   right: 0;
-  height: 4px;
+  height:5px;
 }
 .divider_horizontal:after {
   top: 100%;

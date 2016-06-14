@@ -3,29 +3,42 @@
   <head>
     <meta charset="UTF-8">
     <title>Articulate</title>
+    <base target="_blank">
     <!--<link rel="stylesheet" href="css/materialize.min.css"/>-->
+    <link rel="stylesheet" href="css/materialize.min.css"/>
     <link rel="stylesheet" href="css/materialdesignicons.min.css"/>
     <link rel="stylesheet" href="css/splitter.css"/>
+    <link rel="stylesheet" href="css/font-awesome.min.css"/>
     
     <!-- CSS for Bootstrap WYSIHTML5 -->
+    <!--
     <link rel="stylesheet" href="css/bootstrap.min.css"/>
     <link rel="stylesheet" href="css/bootstrap-theme.min.css"/>
     <link rel="stylesheet" href="css/bootstrap3-wysihtml5.css"/>
-    
+    -->
+
+    <link rel="stylesheet" href="css/simplemde.css"/>
+
     <link rel="stylesheet" href="css/app.css"/>
     
-    <!-- WYSIHTML5 doesn't work with jQuery 3 -->
-    <!--<script src="js/jquery-3.0.0.min.js"></script>-->
-
-    <!-- JS for Bootstrap WYSIHTML5 -->
-    <script src="js/wysihtml5-0.4.0pre.js"></script>
+    <!-- Really old jQuery for compatiblity with specific libraries -->
     <script src="js/jquery-1.7.2.min.js"></script>
+    
+    <!-- JS for Bootstrap WYSIHTML5 -->
+    <!-- Note: WYSIHTML5 doesn't work with jQuery 3 -->
+    <!--
+    <script src="js/wysihtml5-0.4.0pre.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/handlebars.runtime.min.js"></script>
     <script src="js/bootstrap3-wysihtml5.js"></script>
-    
-    <script src="js/materialize.min.js"></script>
-    <script src="js/splitter.js"></script>
+    -->
+
+    <script src="js/simplemde.min.js" defer></script>
+
+    <script src="js/hammer.min.js" defer></script>
+    <script src="js/materialize.min.js" defer></script>
+      
+    <script src="js/splitter.js" defer></script>
   </head>
   <body>
     <!--
@@ -36,32 +49,25 @@
     <div id="container" class="vertically_divided" data-percent="70">
       <div>
         <div id="topnav">
-          <input type="text" id="title" placeholder="Article title"/>
+          <input type="text" id="title" placeholder="Title"/>
         </div>
         <div id="editor">
-          <textarea tabindex="0" placeholder="Article text"></textarea>
+          <textarea tabindex="0"></textarea>
         </div>
       </div>
       <div>
         <div id="sidebar">
-          <h5>Headline and summary tips</h5>
-          <p>…</p>
-          <h5>Related people</h5>
-          <p>…</p>
-          <h5>Related organisations</h5>
-          <p>…</p>
-          <h5>Related places</h5>
-          <p>…</p>
-          <h5>Related images</h5>
-          <p>…</p>
-          <h5>Related explainers</h5>
-          <p>…</p>
-          <h5>Related articles</h5>
-          <p>…</p>
+          <h5><i class="fa fa-lg fa-fw fa-comment"></i> Suggestions <i class="fa fa-lg fa-fw fa-plus pull-right"></i></h5>
+          <h5><i class="fa fa-lg fa-fw fa-user"></i> People <i class="fa fa-lg fa-fw fa-plus pull-right"></i></h5>
+          <h5><i class="fa fa-lg fa-fw fa-sitemap"></i> Organisations <i class="fa fa-lg fa-fw fa-plus pull-right"></i></h5>
+          <h5><i class="fa fa-lg fa-fw fa-globe"></i> Places <i class="fa fa-lg fa-fw fa-plus pull-right"></i></h5>
+          <h5><i class="fa fa-lg fa-fw fa-image"></i> Images <i class="fa fa-lg fa-fw fa-plus pull-right"></i></h5>
+          <h5><i class="fa fa-lg fa-fw fa-file-text-o"></i> Articles <i class="fa fa-lg fa-fw fa-plus pull-right"></i></h5>
+          <h5><i class="fa fa-lg fa-fw fa-info-circle"></i> Explainers <i class="fa fa-lg fa-fw fa-plus pull-right"></i></h5>
         </div>
       </div>
     </div>
-    <script>
+    <script defer>
 
     $(function() {
 
@@ -69,22 +75,40 @@
       
       $("#container").height( $(window).height());
       $("#editor").height( $(window).height() - $("#topnav").outerHeight());
-      $("#editor textarea").height( $(window).height() - $("#topnav").outerHeight() - 51);
-      $("#sidebar").height( $(window).height() - 20);
-      //tinymce.init({ selector: '#editor' });
+
+      $("#sidebar").height( $(window).height());
       
+      /*
       $('#editor textarea').wysihtml5({
         useLineBreaks: false,
         parserRules: { tags: { p: {} }, classes: {} }
       });
+      */
 
-      $('#editor textarea').focus();
+      var simplemde = new SimpleMDE({
+        autoDownloadFontAwesome: false,
+        autofocus: true,
+        autosave: {
+            enabled: true,
+            uniqueId: "_default",
+            delay: 1000,
+        },
+        indentWithTabs: false,
+        spellChecker: false,
+        parsingConfig: {
+          allowAtxHeaderWithoutSpace: true
+        },
+        showIcons: ["bold", "italic", "quote"],
+        hideIcons: ["heading", "fullscreen", "side-by-side", "guide"]
+      });
+      
+      $(".CodeMirror").height( $(window).height() - $("#topnav").outerHeight() - $(".editor-toolbar").outerHeight() - 32);
       
       $(window).resize(function() {
         $("#container").height( $(window).height());
         $("#editor").height( $(window).height() - $("#topnav").outerHeight());
-        $("#editor textarea").height( $(window).height() - $("#topnav").outerHeight() - 51);
-        $("#sidebar").height( $(window).height() - 20);
+        $(".CodeMirror").height( $(window).height() - $("#topnav").outerHeight() - $(".editor-toolbar").outerHeight() - 32);
+        $("#sidebar").height( $(window).height());
       });
     });
 

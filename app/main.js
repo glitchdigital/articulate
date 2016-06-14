@@ -7,7 +7,8 @@ const {BrowserWindow} = electron;
 var express = require('express'),
     partials = require('express-partials'),
     webapp = express(),
-    ejs = require('ejs');
+    ejs = require('ejs')
+    listner = null;
     
 webapp.set('view engine', 'ejs');
 webapp.engine('ejs', ejs.__express);
@@ -20,25 +21,13 @@ webapp.use(express.static(__dirname));
 let win;
 
 function createWindow() {
-  console.log("new window");
   // Create the browser window.
   win = new BrowserWindow({width: 1200, height: 900});
 
-  //win.loadURL(`file://${__dirname}/index.html`);
-  
-  // Open the DevTools.
-  //win.webContents.openDevTools();
-
-  // Server server on automatically assigned port
-  var listener = webapp.listen(0, function(s) {
-    console.log(listener.address().port);
-    console.log('Server running at http://127.0.0.1:%d', listener.address().port);
-    win.loadURL('http://127.0.0.1:'+listener.address().port+'/index.html');
-  });
+  win.loadURL('http://127.0.0.1:'+listener.address().port+'/index.html');
   
   // Emitted when the window is closed.
   win.on('closed', () => {
-    listener.close();
     // Dereference the window object, usually you would store windows
     // in an array if your app supports multi windows, this is the time
     // when you should delete the corresponding element.
@@ -46,10 +35,17 @@ function createWindow() {
   });
 }
 
-// This method will be called when Electron has finished
-// initialization and is ready to create browser windows.
-// Some APIs can only be used after this event occurs.
-app.on('ready', createWindow);
+// Server server on automatically assigned port
+listener = webapp.listen(0, function(s) {
+  console.log(listener.address().port);
+  console.log('Server running at http://127.0.0.1:%d', listener.address().port);
+
+  // This method will be called when Electron has finished
+  // initialization and is ready to create browser windows.
+  // Some APIs can only be used after this event occurs.
+  app.on('ready', createWindow);
+});
+
 
 // Quit when all windows are closed.
 app.on('window-all-closed', () => {
