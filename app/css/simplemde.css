@@ -475,6 +475,7 @@ span.CodeMirror-selectedtext { background: none; }
     content: "▼";
 }
 
+.editor-toolbar a.disabled,
 .editor-toolbar.disabled-for-preview a:not(.no-disable) {
     pointer-events: none;
     opacity: 0.2;
@@ -515,27 +516,32 @@ span.CodeMirror-selectedtext { background: none; }
 }
 
 .editor-preview {
-    padding: 10px;
+    padding: 14px;
     position: absolute;
     width: 100%;
     height: 100%;
     top: 0;
     left: 0;
-    background: #fafafa;
+    background: #eee;
     z-index: 7;
     overflow: auto;
     display: none;
     box-sizing: border-box;
 }
 
+.editor-preview img,
+.editor-preview-side img {
+  width: 100%;
+}
+
 .editor-preview-side {
-    padding: 10px;
+    padding: 14px;
     position: fixed;
     bottom: 0;
     width: 50%;
     top: 50px;
     right: 0;
-    background: #fafafa;
+    background: #eee;
     z-index: 9;
     overflow: auto;
     display: none;
@@ -586,24 +592,40 @@ span.CodeMirror-selectedtext { background: none; }
     background: #d9d9d9;
 }
 
+.editor-preview h1,
+.editor-preview-side h1,
 .CodeMirror .CodeMirror-code .cm-header-1 {
+    font-size: 300%;
+    line-height:150%;
+    font-weight: bold;
+    margin: 0;
+}
+
+.editor-preview h2,
+.editor-preview-side h2,
+.CodeMirror .CodeMirror-code .cm-header-2 {
     font-size: 200%;
     line-height: 200%;
+    font-weight: bold;
+    margin: 0;
 }
 
-.CodeMirror .CodeMirror-code .cm-header-2 {
-    font-size: 160%;
-    line-height: 160%;
-}
-
+.editor-preview h3,
+.editor-preview-side h3,
 .CodeMirror .CodeMirror-code .cm-header-3 {
-    font-size: 125%;
-    line-height: 125%;
+    font-size: 150%;
+    line-height: 200%;
+    font-weight: bold;
+    margin: 0;
 }
 
+.editor-preview h4,
+.editor-preview-side h4,
 .CodeMirror .CodeMirror-code .cm-header-4 {
-    font-size: 110%;
-    line-height: 110%;
+    font-size: 125%;
+    line-height: 200%;
+    font-weight: bold;
+    margin: 0;
 }
 
 .CodeMirror .CodeMirror-code .cm-comment {

@@ -9,6 +9,8 @@ body {
   height: 55px;
   background: #fff;
   z-index: 2;
+  display: none;
+  height: 0;
 }
 #title,
 #title:focus {
@@ -31,7 +33,7 @@ body {
   position: absolute;
   top: 0;
   left: 0;
-  margin-top: 55px;
+  margin-top: 0px;
   height: 100%;
   width: 100%;
 }
@@ -43,34 +45,11 @@ body {
   width: 100%;
   padding: 2px;
 }
-#editor .wysihtml5-toolbar {
-  background: #333;
-  padding: 5px;
-  margin-bottom: 0px;
-  zoom: 1.1;
-  overflow: visible;
-}
-
-#editor .wysihtml5-toolbar li {
-  margin-bottom: 0;
-}
 
 #editor .dropdown-menu {
   border-radius: 0;
 }
 
-#editor .wysihtml5-toolbar .btn.btn-default {
-  border-radius: 0;
-  border: none;
-  background: transparent;
-  box-shadow: none;
-  text-shadow: none;
-  color: #fff;
-}
-
-#editor .wysihtml5-toolbar .btn.btn-default:hover {
-  background: rgba(0,0,0,0.1);
-}
 #sidebar {
   padding: 5px 5px 5px 0;
   background: #333;
@@ -96,8 +75,8 @@ body {
 #sidebar h5 .fa-fw {
   margin-right: 5px;
 }
-#sidebar h5:hover {
-  background: #444;
+#sidebar a {
+  color: #fff !important;
 }
 
 #sidebar h5 .expander {
@@ -113,7 +92,7 @@ body {
   transform:rotate(0deg);
 }
 #sidebar .container {
-  display: none;
+  display: block;
   margin: 0;
   margin-bottom: 10px;
   width: 100%;
@@ -122,7 +101,7 @@ body {
 #sidebar .container p {
   padding-left: 10px;
   margin-bottom: 20px;
-  opacity: 0.5;
+  opacity: 1;
 }
 
 #container {
@@ -136,6 +115,7 @@ body {
 ::-webkit-scrollbar {
   -webkit-appearance: none;
   width: 10px;
+  height: 10px;
 }
 ::-webkit-scrollbar-thumb {
   background-color: #555;
@@ -157,4 +137,21 @@ body {
 #sidebar {
   cursor: default !important;
   user-select: none;
+}
+
+.editor-toolbar .fa.fa-arrows-alt {
+  display: none;
+}
+
+#editor ul li {
+  list-style-type: disc !important;
+}
+
+#editor ul,
+#editor ol {
+  -webkit-margin-before: 1em;
+  -webkit-margin-after: 1em;
+  -webkit-margin-start: 0px;
+  -webkit-margin-end: 0px;
+  -webkit-padding-start: 40px;
 }

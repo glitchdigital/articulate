@@ -4,48 +4,22 @@
     <meta charset="UTF-8">
     <title>Articulate</title>
     <base target="_blank">
-    <!--<link rel="stylesheet" href="css/materialize.min.css"/>-->
     <link rel="stylesheet" href="css/materialize.min.css"/>
     <link rel="stylesheet" href="css/materialdesignicons.min.css"/>
     <link rel="stylesheet" href="css/splitter.css"/>
     <link rel="stylesheet" href="css/font-awesome.min.css"/>
-    
-    <!-- CSS for Bootstrap WYSIHTML5 -->
-    <!--
-    <link rel="stylesheet" href="css/bootstrap.min.css"/>
-    <link rel="stylesheet" href="css/bootstrap-theme.min.css"/>
-    <link rel="stylesheet" href="css/bootstrap3-wysihtml5.css"/>
-    -->
-
     <link rel="stylesheet" href="css/simplemde.css"/>
-
     <link rel="stylesheet" href="css/app.css"/>
-    
     <!-- Really old jQuery for compatiblity with specific libraries -->
     <script src="js/jquery-1.7.2.min.js"></script>
-    
-    <!-- JS for Bootstrap WYSIHTML5 -->
-    <!-- Note: WYSIHTML5 doesn't work with jQuery 3 -->
-    <!--
-    <script src="js/wysihtml5-0.4.0pre.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/handlebars.runtime.min.js"></script>
-    <script src="js/bootstrap3-wysihtml5.js"></script>
-    -->
-
+    <script src="js/jquery.ba-throttle-debounce.js"></script>
     <script src="js/simplemde.min.js" defer></script>
-
     <script src="js/hammer.min.js" defer></script>
     <script src="js/materialize.min.js" defer></script>
-      
     <script src="js/splitter.js" defer></script>
+    <script src="js/app.js" defer></script>
   </head>
   <body>
-    <!--
-    Node <script>document.write(process.versions.node)</script>,
-    Chrome <script>document.write(process.versions.chrome)</script>,
-    Electron <script>document.write(process.versions.electron)</script>.
-    -->
     <div id="container" class="vertically_divided" data-percent="70">
       <div>
         <div id="topnav">
@@ -58,28 +32,26 @@
       <div>
         <div id="sidebar">
           <div>
+            <div id="entities" class="container"></div>
+          </div>
+          <!--
+          <div>
             <h5><i class="fa fa-lg fa-fw fa-comment"></i> Suggestions <i class="fa fa-lg fa-fw fa-plus-circle pull-right expander"></i></h5>
             <div class="container">
               <p>No suggestions or tips yet…</p>
             </div>
           </div>
           <div>
-            <h5><i class="fa fa-lg fa-fw fa-user"></i> People <i class="fa fa-lg fa-fw fa-plus-circle pull-right expander"></i></h5>
-            <div class="container">
-              <p>No matching people found.</p>
-            </div>
+            <h5><i class="fa fa-lg fa-fw fa-user"></i> People <i class="hide fa fa-lg fa-fw fa-plus-circle pull-right expander"></i></h5>
+            <div id="people" class="container"></div>
           </div>
           <div>
-            <h5><i class="fa fa-lg fa-fw fa-sitemap"></i> Organisations <i class="fa fa-lg fa-fw fa-plus-circle pull-right expander"></i></h5>
-            <div class="container">
-              <p>No matching organisations found.</p>
-            </div>
+            <h5><i class="fa fa-lg fa-fw fa-globe"></i> Places <i class="hide fa fa-lg fa-fw fa-plus-circle pull-right expander"></i></h5>
+            <div id="places" class="container"></div>
           </div>
           <div>
-            <h5><i class="fa fa-lg fa-fw fa-globe"></i> Places <i class="fa fa-lg fa-fw fa-plus-circle pull-right expander"></i></h5>
-            <div class="container">
-              <p>No matching places found.</p>
-            </div>
+            <h5><i class="fa fa-lg fa-fw fa-sitemap"></i> Organizations <i class="hide fa fa-lg fa-fw fa-plus-circle pull-right expander"></i></h5>
+            <div id="organizations" class="container"></div>
           </div>
           <div>
             <h5><i class="fa fa-lg fa-fw fa-image"></i> Images <i class="fa fa-lg fa-fw fa-plus-circle pull-right expander"></i></h5>
@@ -99,231 +71,8 @@
               <p>No matching articles found.</p>
             </div>
           </div>
+          -->
         </div>
       </div>
     </div>
-    <script defer>
-
-    $(function() {
-
-      splitMe.init();
-      
-      $("#container").height( $(window).height());
-      $("#editor").height( $(window).height() - $("#topnav").outerHeight());
-
-      $("#sidebar").height( $(window).height());
-      
-      /*
-      $('#editor textarea').wysihtml5({
-        useLineBreaks: false,
-        parserRules: { tags: { p: {} }, classes: {} }
-      });
-      */
-
-      var simplemde = new SimpleMDE({
-        autoDownloadFontAwesome: false,
-        autofocus: true,
-        autosave: {
-            enabled: true,
-            uniqueId: "_default",
-            delay: 1000,
-        },
-        indentWithTabs: false,
-        spellChecker: false,
-        parsingConfig: {
-          allowAtxHeaderWithoutSpace: true
-        },
-        showIcons: ["bold", "italic", "quote"],
-        hideIcons: ["heading", "fullscreen", "side-by-side", "guide"]
-      });
-      
-      $(".CodeMirror").height( $(window).height() - $("#topnav").outerHeight() - $(".editor-toolbar").outerHeight() - 32);
-      
-      $(window).resize(function() {
-        $("#container").height( $(window).height());
-        $("#editor").height( $(window).height() - $("#topnav").outerHeight());
-        $(".CodeMirror").height( $(window).height() - $("#topnav").outerHeight() - $(".editor-toolbar").outerHeight() - 32);
-        $("#sidebar").height( $(window).height());
-      });
-      
-      $("#sidebar h5").click(function() { 
-        $(".expander", $(this)).toggleClass("active").toggleClass("fa-plus-circle").toggleClass("fa-minus-circle");
-        $($(this).siblings()[0]).slideToggle();
-      });
-    });
-
-    </script>
-    
-    <script>
-    if (window.require)
-      initalizeMenu();
-    
-    function initalizeMenu() {
-      const {remote} = require('electron');
-      const {Menu, MenuItem} = remote;
-
-      const contextMenu = new Menu();
-      contextMenu.append(new MenuItem({
-        label: 'Cut',
-        accelerator: 'CmdOrCtrl+X',
-        role: 'cut'
-      }));
-      contextMenu.append(new MenuItem({
-        label: 'Copy',
-        accelerator: 'CmdOrCtrl+C',
-        role: 'copy'
-      }));
-      contextMenu.append(new MenuItem({
-        label: 'Paste',
-        accelerator: 'CmdOrCtrl+V',
-        role: 'paste'
-      }));
-      
-      window.addEventListener('contextmenu', (e) => {
-        e.preventDefault();
-        contextMenu.popup(remote.getCurrentWindow());
-      }, false);
-      
-
-
-      const template = [
-        {
-          label: 'Edit',
-          submenu: [
-            {
-              label: 'Undo',
-              accelerator: 'CmdOrCtrl+Z',
-              role: 'undo'
-            },
-            {
-              label: 'Redo',
-              accelerator: 'Shift+CmdOrCtrl+Z',
-              role: 'redo'
-            },
-            {
-              type: 'separator'
-            },
-            {
-              label: 'Cut',
-              accelerator: 'CmdOrCtrl+X',
-              role: 'cut'
-            },
-            {
-              label: 'Copy',
-              accelerator: 'CmdOrCtrl+C',
-              role: 'copy'
-            },
-            {
-              label: 'Paste',
-              accelerator: 'CmdOrCtrl+V',
-              role: 'paste'
-            },
-            {
-              label: 'Select All',
-              accelerator: 'CmdOrCtrl+A',
-              role: 'selectall'
-            },
-          ]
-        },
-        {
-          label: 'View',
-          submenu: [
-            {
-              label: 'Toggle Full Screen',
-              accelerator: process.platform === 'darwin' ? 'Ctrl+Command+F' : 'F11',
-              click(item, focusedWindow) {
-                if (focusedWindow)
-                  focusedWindow.setFullScreen(!focusedWindow.isFullScreen());
-              }
-            },
-          ]
-        },
-        {
-          label: 'Window',
-          role: 'window',
-          submenu: [
-            {
-              label: 'Minimize',
-              accelerator: 'CmdOrCtrl+M',
-              role: 'minimize'
-            },
-            {
-              label: 'Close',
-              accelerator: 'CmdOrCtrl+W',
-              role: 'close'
-            },
-          ]
-        },
-        {
-          label: 'Help',
-          role: 'help',
-          submenu: [
-            {
-              label: 'Learn More',
-              click() { require('electron').shell.openExternal('http://electron.atom.io'); }
-            },
-          ]
-        },
-      ];
-
-      if (process.platform === 'darwin') {
-        const name = remote.app.getName();
-        template.unshift({
-          label: name,
-          submenu: [
-            {
-              label: 'About ' + name,
-              role: 'about'
-            },
-            {
-              type: 'separator'
-            },
-            {
-              label: 'Services',
-              role: 'services',
-              submenu: []
-            },
-            {
-              type: 'separator'
-            },
-            {
-              label: 'Hide ' + name,
-              accelerator: 'Command+H',
-              role: 'hide'
-            },
-            {
-              label: 'Hide Others',
-              accelerator: 'Command+Alt+H',
-              role: 'hideothers'
-            },
-            {
-              label: 'Show All',
-              role: 'unhide'
-            },
-            {
-              type: 'separator'
-            },
-            {
-              label: 'Quit',
-              accelerator: 'Command+Q',
-              click() { remote.app.quit(); }
-            },
-          ]
-        });
-        // Window menu.
-        template[3].submenu.push(
-          {
-            type: 'separator'
-          },
-          {
-            label: 'Bring All to Front',
-            role: 'front'
-          }
-        );
-      }
-
-      const menu = Menu.buildFromTemplate(template);
-      Menu.setApplicationMenu(menu);
-    }
-    </script>
 </html>
