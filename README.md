@@ -1,6 +1,12 @@
 #Articulate ReadMe
 
-This is work-in-progress protoype for smart editor.
+This is work-in-progress prototype of a smart editor for journalists.
+
+It builds and works (ish!) but isn't anywhere ready for use yet.
+
+Version 1.0 will be released sometime in Summer 2016.
+
+If you would like to know more, or help sponsor development of this project or be involved in it please get in touch with articulate@glitch.digital.
 
 ##Dependancies
 
