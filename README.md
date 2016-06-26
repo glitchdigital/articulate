@@ -1,5 +1,7 @@
 #Articulate ReadMe
 
+This is work-in-progress protoype for smart editor.
+
 ##Dependancies
 
 Election: 1.2.2
