@@ -2,9 +2,7 @@
 
 This is work-in-progress prototype of a smart editor for journalists.
 
-It builds and works (ish!) but isn't anywhere ready for use yet.
-
-Version 1.0 will be released sometime in Summer 2016.
+It builds and works (ish!) but isn't anywhere ready for use yet. It's a test bed for some of the tech we want to try out and see how well we might be able to turn into a real product, but we have now pushed back from targeting a specific release date (though some of the things we have learned from this will likely show up in other projects first).
 
 If you would like to know more, or help sponsor development of this project or be involved in it please get in touch with articulate@glitch.digital.
 
